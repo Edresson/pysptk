@@ -1649,7 +1649,7 @@ def mgc2mgc(src_ceps, src_alpha=0.0, src_gamma=0.0,
 
 
 @apply_along_last_axis
-def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
+def mgc2sp(ceps, order=25, alpha=0.0, gamma=0.0, fftlen=256):
     """Mel-generalized cepstrum transform
 
     Parameters
@@ -1690,7 +1690,7 @@ def mgc2sp(ceps, alpha=0.0, gamma=0.0, fftlen=256):
 
     """
 
-    return _sptk.mgc2sp(ceps, alpha, gamma, fftlen)
+    return _sptk.mgc2sp(ceps, order, alpha, gamma, fftlen)
 
 
 @apply_along_last_axis

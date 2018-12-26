@@ -623,15 +623,16 @@ def mgc2mgc(np.ndarray[np.float64_t, ndim=1, mode="c"] src_ceps not None,
 @cython.boundscheck(False)
 @cython.wraparound(False)
 def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
-           alpha=0.0, gamma=0.0, fftlen=256):
+           order=25, alpha=0.0, gamma=0.0, fftlen=256):
     assert_gamma(gamma)
     assert_fftlen(fftlen)
 
-    cdef int order = len(ceps) - 1
-    cdef np.ndarray[np.complex128_t, ndim = 1, mode = "c"] sp
+    # cdef np.ndarray[np.complex128_t, ndim = 1, mode = "c"] sp
+    cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp
     cdef np.ndarray[np.float64_t, ndim = 1, mode = "c"] sp_r, sp_i
 
-    sp = np.empty((fftlen >> 1) + 1, dtype=np.complex128)
+    # sp = np.empty((fftlen >> 1) + 1, dtype=np.complex128)
+    sp = np.empty((fftlen >> 1) + 1, dtype=np.float64)
     sp_r = np.zeros(fftlen, dtype=np.float64)
     sp_i = np.zeros(fftlen, dtype=np.float64)
 
@@ -639,7 +640,9 @@ def mgc2sp(np.ndarray[np.float64_t, ndim=1, mode="c"] ceps not None,
 
     cdef int i
     for i in range(0, len(sp)):
-        sp[i] = sp_r[i] + sp_i[i] * 1j
+        sp[i] = np.exp(sp_r[i])
+    # for i in range(0, len(sp)):
+    #     sp[i] = sp_r[i] + sp_i[i] * 1j
 
     return sp
 
